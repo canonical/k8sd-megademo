@@ -11,6 +11,16 @@ import (
 	"github.com/spf13/cobra"
 )
 
+const (
+	colorReset  = "\033[0m"
+	colorRed    = "\033[31m"
+	colorGreen  = "\033[32m"
+	colorYellow = "\033[33m"
+	colorCyan   = "\033[36m"
+	colorBold   = "\033[1m"
+	colorDim    = "\033[2m"
+)
+
 type UpgradeCheckResult struct {
 	FromChannel string                         `json:"from_channel" yaml:"from_channel"`
 	ToChannel   string                         `json:"to_channel" yaml:"to_channel"`
@@ -32,11 +42,28 @@ func verdictBadge(v string) string {
 	}
 }
 
+func colorVerdict(v string) string {
+	badge := verdictBadge(v)
+	switch badge {
+	case "PASS":
+		return colorGreen + badge + colorReset
+	case "WARN":
+		return colorYellow + badge + colorReset
+	case "BLOCKED":
+		return colorRed + badge + colorReset
+	default:
+		return badge
+	}
+}
+
 func (r UpgradeCheckResult) String() string {
 	var sb strings.Builder
 
-	sb.WriteString(fmt.Sprintf("Upgrade check: %s → %s", r.FromChannel, r.ToChannel))
-	sb.WriteString(fmt.Sprintf("  [%s]\n", verdictBadge(r.Verdict)))
+	sb.WriteString(fmt.Sprintf("%sUpgrade check:%s %s → %s  [%s]\n",
+		colorBold, colorReset,
+		colorCyan+r.FromChannel+colorReset,
+		colorCyan+r.ToChannel+colorReset,
+		colorVerdict(r.Verdict)))
 
 	maxNameLen := len("Component")
 	maxFromLen := len("From")
@@ -62,25 +89,43 @@ func (r UpgradeCheckResult) String() string {
 	toFmt := fmt.Sprintf("%%-%ds", maxToLen)
 	verdictFmt := fmt.Sprintf("%%-%ds", maxVerdictLen)
 
-	divider := fmt.Sprintf("+%s+%s+%s+%s+\n",
+	divider := fmt.Sprintf("%s+%s+%s+%s+%s+%s\n",
+		colorDim,
 		strings.Repeat("-", maxNameLen+2),
 		strings.Repeat("-", maxFromLen+2),
 		strings.Repeat("-", maxToLen+2),
-		strings.Repeat("-", maxVerdictLen+2))
+		strings.Repeat("-", maxVerdictLen+2),
+		colorReset)
 
 	sb.WriteString(divider)
-	sb.WriteString(fmt.Sprintf("| "+nameFmt+" | "+fromFmt+" | "+toFmt+" | "+verdictFmt+" |\n", "Component", "From", "To", "Verdict"))
+	sb.WriteString(fmt.Sprintf("%s| "+nameFmt+" | "+fromFmt+" | "+toFmt+" | "+verdictFmt+" |%s\n",
+		colorBold, "Component", "From", "To", "Verdict", colorReset))
 	sb.WriteString(divider)
 
 	for _, c := range r.Components {
-		sb.WriteString(fmt.Sprintf("| "+nameFmt+" | "+fromFmt+" | "+toFmt+" | "+verdictFmt+" |\n",
-			c.Name, c.FromVersion, c.ToVersion, verdictBadge(c.Verdict)))
+		verdictStr := colorVerdict(c.Verdict)
+		padding := maxVerdictLen - len(verdictBadge(c.Verdict))
+		sb.WriteString(fmt.Sprintf("| "+nameFmt+" | "+fromFmt+" | "+toFmt+" | %s%s |\n",
+			c.Name, c.FromVersion, c.ToVersion, verdictStr, strings.Repeat(" ", padding)))
 	}
 	sb.WriteString(divider)
 
 	for _, c := range r.Components {
 		for _, w := range c.Warnings {
-			sb.WriteString(fmt.Sprintf("\n  [%s] %s: %s\n", strings.ToUpper(w.Severity), c.Name, w.Message))
+			severity := strings.ToUpper(w.Severity)
+			var severityColor string
+			switch severity {
+			case "HIGH", "CRITICAL":
+				severityColor = colorRed
+			case "MEDIUM":
+				severityColor = colorYellow
+			default:
+				severityColor = colorDim
+			}
+			sb.WriteString(fmt.Sprintf("\n  [%s%s%s] %s%s%s: %s\n",
+				severityColor, severity, colorReset,
+				colorBold, c.Name, colorReset,
+				w.Message))
 		}
 	}
 
