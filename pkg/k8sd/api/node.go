@@ -7,7 +7,7 @@ import (
 	"os"
 	"strings"
 
-	apiv2 "github.com/canonical/k8s-snap-api/v2/api"
+	apiv2 "github.com/canonical/k8s-snap-api-megademo/v2/api"
 	"github.com/canonical/k8sd/pkg/k8sd/api/impl"
 	"github.com/canonical/k8sd/pkg/snap"
 	snaputil "github.com/canonical/k8sd/pkg/snap/util"

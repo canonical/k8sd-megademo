@@ -7,7 +7,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	apiv2 "github.com/canonical/k8s-snap-api/v2/api"
+	apiv2 "github.com/canonical/k8s-snap-api-megademo/v2/api"
 	"github.com/canonical/k8sd/pkg/k8sd/types"
 	"github.com/canonical/k8sd/pkg/snap/mock"
 	. "github.com/onsi/gomega"

@@ -1,7 +1,7 @@
 package metrics_server
 
 import (
-	apiv1_annotations "github.com/canonical/k8s-snap-api/v2/api/annotations/metrics-server"
+	apiv1_annotations "github.com/canonical/k8s-snap-api-megademo/v2/api/annotations/metrics-server"
 	"github.com/canonical/k8sd/pkg/k8sd/types"
 )
 

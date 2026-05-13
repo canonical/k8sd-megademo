@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
-	apiv2 "github.com/canonical/k8s-snap-api/v2/api"
+	apiv2 "github.com/canonical/k8s-snap-api-megademo/v2/api"
 	databaseutil "github.com/canonical/k8sd/pkg/k8sd/database/util"
 	"github.com/canonical/k8sd/pkg/k8sd/setup"
 	"github.com/canonical/k8sd/pkg/utils"

@@ -3,7 +3,7 @@ package types
 import (
 	"time"
 
-	apiv2 "github.com/canonical/k8s-snap-api/v2/api"
+	apiv2 "github.com/canonical/k8s-snap-api-megademo/v2/api"
 )
 
 // FeatureStatus encapsulates the deployment status of a feature.

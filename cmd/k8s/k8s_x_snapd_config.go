@@ -4,7 +4,7 @@ import (
 	"context"
 	"time"
 
-	apiv2 "github.com/canonical/k8s-snap-api/v2/api"
+	apiv2 "github.com/canonical/k8s-snap-api-megademo/v2/api"
 	cmdutil "github.com/canonical/k8sd/cmd/util"
 	"github.com/canonical/k8sd/pkg/utils/control"
 	"github.com/canonical/k8sd/pkg/utils/experimental/snapdconfig"

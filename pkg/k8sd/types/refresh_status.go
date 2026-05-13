@@ -1,6 +1,6 @@
 package types
 
-import apiv2 "github.com/canonical/k8s-snap-api/v2/api"
+import apiv2 "github.com/canonical/k8s-snap-api-megademo/v2/api"
 
 // RefreshStatus represents the status of a snap refresh operation.
 // This is a partial struct derived from the Change struct used by the snapd API.
