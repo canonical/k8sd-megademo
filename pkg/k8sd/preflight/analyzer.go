@@ -21,8 +21,20 @@ func NewChecker(analyzer Analyzer, downloader *SnapDownloader) *Checker {
 }
 
 // CheckTargetChannel compares the current snap against a target channel.
+// If fromChannel is empty, uses the currently installed snap's images.
+// If fromChannel is provided, downloads that snap to get its images.
 func (c *Checker) CheckTargetChannel(ctx context.Context, fromChannel, toChannel string) (*PreflightResult, error) {
-	current := CurrentComponents()
+	var current []ComponentInfo
+	if fromChannel == "" {
+		current = CurrentComponents()
+		fromChannel = currentSnapChannel()
+	} else {
+		var err error
+		current, _, err = c.SnapDownloader.DownloadTargetSnap(ctx, fromChannel)
+		if err != nil {
+			return nil, fmt.Errorf("failed to download source snap: %w", err)
+		}
+	}
 
 	targetComponents, _, err := c.SnapDownloader.DownloadTargetSnap(ctx, toChannel)
 	if err != nil {

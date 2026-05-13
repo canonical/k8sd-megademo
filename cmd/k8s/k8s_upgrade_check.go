@@ -126,6 +126,8 @@ func newUpgradeCheckCmd(env cmdutil.ExecutionEnvironment) *cobra.Command {
 			ctx, cancel := context.WithTimeout(cmd.Context(), opts.timeout)
 			cobra.OnFinalize(cancel)
 
+			cmd.PrintErrf("Downloading and analyzing snap contents, this may take a moment...\n")
+
 			request := k8sd.UpgradeCheckRequest{
 				FromChannel: opts.fromChannel,
 				ToChannel:   opts.toChannel,
