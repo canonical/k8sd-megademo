@@ -102,4 +102,26 @@ func (c *ClusterConfig) SetDefaults() {
 	if c.MetricsServer.Enabled == nil {
 		c.MetricsServer.Enabled = utils.Pointer(true)
 	}
+	// ai
+	if c.AI.Enabled == nil {
+		c.AI.Enabled = utils.Pointer(false)
+	}
+	if c.AI.ProviderModel == nil {
+		c.AI.ProviderModel = utils.Pointer("")
+	}
+	if c.AI.ProviderToken == nil {
+		c.AI.ProviderToken = utils.Pointer("")
+	}
+	if c.AI.LocalInferenceEnabled == nil {
+		c.AI.LocalInferenceEnabled = utils.Pointer(false)
+	}
+	if c.AI.LocalInferenceModels == nil {
+		c.AI.LocalInferenceModels = utils.Pointer([]string{})
+	}
+	if c.AI.LocalInferencePersistenceEnabled == nil {
+		c.AI.LocalInferencePersistenceEnabled = utils.Pointer(true)
+	}
+	if c.AI.LocalInferencePersistenceSize == nil {
+		c.AI.LocalInferencePersistenceSize = utils.Pointer("10Gi")
+	}
 }

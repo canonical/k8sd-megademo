@@ -127,6 +127,15 @@ func ClusterConfigFromUserFacing(u apiv2.UserFacingClusterConfig) (ClusterConfig
 		Gateway: Gateway{
 			Enabled: u.Gateway.Enabled,
 		},
+		AI: AI{
+			Enabled:                        u.AI.Enabled,
+			ProviderModel:                  u.AI.ProviderModel,
+			ProviderToken:                  u.AI.ProviderToken,
+			LocalInferenceEnabled:          u.AI.LocalInferenceEnabled,
+			LocalInferenceModels:           u.AI.LocalInferenceModels,
+			LocalInferencePersistenceEnabled: u.AI.LocalInferencePersistenceEnabled,
+			LocalInferencePersistenceSize:  u.AI.LocalInferencePersistenceSize,
+		},
 	}, nil
 }
 
@@ -169,6 +178,15 @@ func (c ClusterConfig) ToUserFacing() apiv2.UserFacingClusterConfig {
 		},
 		Gateway: apiv2.GatewayConfig{
 			Enabled: c.Gateway.Enabled,
+		},
+		AI: apiv2.AIConfig{
+			Enabled:                        c.AI.Enabled,
+			ProviderModel:                  c.AI.ProviderModel,
+			ProviderToken:                  c.AI.ProviderToken,
+			LocalInferenceEnabled:          c.AI.LocalInferenceEnabled,
+			LocalInferenceModels:           c.AI.LocalInferenceModels,
+			LocalInferencePersistenceEnabled: c.AI.LocalInferencePersistenceEnabled,
+			LocalInferencePersistenceSize:  c.AI.LocalInferencePersistenceSize,
 		},
 		CloudProvider: c.Kubelet.CloudProvider,
 		Annotations:   map[string]string(c.Annotations),

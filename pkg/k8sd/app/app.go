@@ -91,6 +91,7 @@ type App struct {
 	triggerFeatureControllerLocalStorageCh  chan struct{}
 	triggerFeatureControllerMetricsServerCh chan struct{}
 	triggerFeatureControllerDNSCh           chan struct{}
+	triggerFeatureControllerAICh           chan struct{}
 	featureController                       *controllers.FeatureController
 }
 
@@ -173,6 +174,7 @@ func New(cfg Config) (*App, error) {
 	app.triggerFeatureControllerLocalStorageCh = make(chan struct{}, 1)
 	app.triggerFeatureControllerMetricsServerCh = make(chan struct{}, 1)
 	app.triggerFeatureControllerDNSCh = make(chan struct{}, 1)
+	app.triggerFeatureControllerAICh = make(chan struct{}, 1)
 
 	if !cfg.DisableFeatureController {
 		app.featureController = controllers.NewFeatureController(controllers.FeatureControllerOpts{
@@ -185,6 +187,7 @@ func New(cfg Config) (*App, error) {
 			TriggerDNSCh:                  app.triggerFeatureControllerDNSCh,
 			TriggerLocalStorageCh:         app.triggerFeatureControllerLocalStorageCh,
 			TriggerMetricsServerCh:        app.triggerFeatureControllerMetricsServerCh,
+			TriggerAICh:                   app.triggerFeatureControllerAICh,
 			ReconcileLoopMaxRetryAttempts: cfg.FeatureControllerMaxRetryAttempts,
 		})
 	} else {
@@ -209,9 +212,10 @@ func New(cfg Config) (*App, error) {
 					features.Ingress:       app.featureController.ReconciledIngressCh(),
 					features.DNS:           app.featureController.ReconciledDNSCh(),
 					features.LoadBalancer:  app.featureController.ReconciledLoadBalancerCh(),
-					features.LocalStorage:  app.featureController.ReconciledLocalStorageCh(),
-					features.MetricsServer: app.featureController.ReconciledMetricsServerCh(),
-				},
+				features.LocalStorage:  app.featureController.ReconciledLocalStorageCh(),
+				features.MetricsServer: app.featureController.ReconciledMetricsServerCh(),
+				features.AI:            app.featureController.ReconciledAICh(),
+			},
 				FeatureControllerReadyTimeout:     10 * time.Minute,
 				FeatureControllerReconcileTimeout: 2 * time.Minute,
 			},

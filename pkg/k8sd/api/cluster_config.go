@@ -47,6 +47,7 @@ func (e *Endpoints) putClusterConfig(s mctypes.State, r *http.Request) mctypes.R
 		!requestedConfig.LocalStorage.Empty(),
 		!requestedConfig.MetricsServer.Empty(),
 		!requestedConfig.DNS.Empty() || !requestedConfig.Kubelet.Empty(),
+		!requestedConfig.AI.Empty(),
 	)
 
 	return mctypes.SyncResponse(true, &apiv2.SetClusterConfigResponse{})

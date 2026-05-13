@@ -68,6 +68,7 @@ func (e *Endpoints) getClusterStatus(s mctypes.State, r *http.Request) mctypes.R
 			Gateway:       statuses[features.Gateway].ToAPI(),
 			MetricsServer: statuses[features.MetricsServer].ToAPI(),
 			LocalStorage:  statuses[features.LocalStorage].ToAPI(),
+			AI:            statuses[features.AI].ToAPI(),
 		},
 	})
 }

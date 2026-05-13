@@ -33,6 +33,7 @@ type FeatureController struct {
 	triggerDNSCh           chan struct{}
 	triggerLocalStorageCh  chan struct{}
 	triggerMetricsServerCh chan struct{}
+	triggerAICh           chan struct{}
 
 	// TODO(Hue): (KU-3219) Change these with an atomic bool or something similar.
 	// Because we don't close them when the feature is reconciled, we simply
@@ -46,6 +47,7 @@ type FeatureController struct {
 	reconciledDNSCh           chan struct{}
 	reconciledLocalStorageCh  chan struct{}
 	reconciledMetricsServerCh chan struct{}
+	reconciledAICh           chan struct{}
 
 	// reconcileLoopMaxRetryAttempts is the maximum number of retry attempts for the reconcile loop.
 	// Zero or negative values mean unlimited retries.
@@ -94,6 +96,10 @@ func (c *FeatureController) ReconciledMetricsServerCh() <-chan struct{} {
 	return c.reconciledMetricsServerCh
 }
 
+func (c *FeatureController) ReconciledAICh() <-chan struct{} {
+	return c.reconciledAICh
+}
+
 type FeatureControllerOpts struct {
 	Snap      snap.Snap
 	WaitReady func()
@@ -105,6 +111,7 @@ type FeatureControllerOpts struct {
 	TriggerDNSCh           chan struct{}
 	TriggerLocalStorageCh  chan struct{}
 	TriggerMetricsServerCh chan struct{}
+	TriggerAICh           chan struct{}
 
 	// ReconcileLoopMaxRetryAttempts is the maximum number of retry attempts for the reconcile loop.
 	// Zero or negative values mean unlimited retries.
@@ -123,6 +130,7 @@ func NewFeatureController(opts FeatureControllerOpts) *FeatureController {
 		triggerDNSCh:                  opts.TriggerDNSCh,
 		triggerLocalStorageCh:         opts.TriggerLocalStorageCh,
 		triggerMetricsServerCh:        opts.TriggerMetricsServerCh,
+		triggerAICh:                   opts.TriggerAICh,
 		reconciledNetworkCh:           make(chan struct{}, 1),
 		reconciledGatewayCh:           make(chan struct{}, 1),
 		reconciledIngressCh:           make(chan struct{}, 1),
@@ -130,6 +138,7 @@ func NewFeatureController(opts FeatureControllerOpts) *FeatureController {
 		reconciledDNSCh:               make(chan struct{}, 1),
 		reconciledLocalStorageCh:      make(chan struct{}, 1),
 		reconciledMetricsServerCh:     make(chan struct{}, 1),
+		reconciledAICh:                make(chan struct{}, 1),
 		reconcileLoopMaxRetryAttempts: opts.ReconcileLoopMaxRetryAttempts,
 	}
 }
@@ -185,8 +194,12 @@ func (c *FeatureController) Run(
 		return features.Implementation.ApplyLocalStorage(ctx, c.snap, cfg.LocalStorage, cfg.Annotations)
 	})
 
-	go c.reconcileLoop(ctx, getClusterConfig, setFeatureStatus, features.MetricsServer, c.triggerMetricsServerCh, c.reconciledMetricsServerCh, func(cfg types.ClusterConfig) (types.FeatureStatus, error) {
+go c.reconcileLoop(ctx, getClusterConfig, setFeatureStatus, features.MetricsServer, c.triggerMetricsServerCh, c.reconciledMetricsServerCh, func(cfg types.ClusterConfig) (types.FeatureStatus, error) {
 		return features.Implementation.ApplyMetricsServer(ctx, c.snap, cfg.MetricsServer, cfg.Annotations)
+	})
+
+	go c.reconcileLoop(ctx, getClusterConfig, setFeatureStatus, features.AI, c.triggerAICh, c.reconciledAICh, func(cfg types.ClusterConfig) (types.FeatureStatus, error) {
+		return features.Implementation.ApplyAI(ctx, c.snap, cfg.AI, cfg.Annotations)
 	})
 
 	go c.reconcileLoop(ctx, getClusterConfig, setFeatureStatus, features.DNS, c.triggerDNSCh, c.reconciledDNSCh, func(cfg types.ClusterConfig) (types.FeatureStatus, error) {
