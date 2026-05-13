@@ -1,6 +1,7 @@
 package features
 
 import (
+	"github.com/canonical/k8sd/pkg/k8sd/features/ai"
 	"github.com/canonical/k8sd/pkg/k8sd/features/cilium"
 	"github.com/canonical/k8sd/pkg/k8sd/features/coredns"
 	"github.com/canonical/k8sd/pkg/k8sd/features/localpv"
@@ -20,8 +21,9 @@ var Implementation Interface = &implementation{
 	applyLoadBalancer:  metallb.ApplyLoadBalancer,
 	applyIngress:       cilium.ApplyIngress,
 	applyGateway:       cilium.ApplyGateway,
-	applyMetricsServer: metrics_server.ApplyMetricsServer,
+applyMetricsServer: metrics_server.ApplyMetricsServer,
 	applyLocalStorage:  localpv.ApplyLocalStorage,
+	applyAI:            ai.ApplyAI,
 }
 
 // StatusChecks implements the Canonical Kubernetes built-in feature status checks.

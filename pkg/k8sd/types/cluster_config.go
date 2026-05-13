@@ -13,6 +13,7 @@ type ClusterConfig struct {
 	Gateway       Gateway       `json:"gateway,omitempty"`
 	LocalStorage  LocalStorage  `json:"local-storage,omitempty"`
 	MetricsServer MetricsServer `json:"metrics-server,omitempty"`
+	AI            AI            `json:"ai,omitempty"`
 
 	Annotations Annotations `json:"annotations,omitempty"`
 }

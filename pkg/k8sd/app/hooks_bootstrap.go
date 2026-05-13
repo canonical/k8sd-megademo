@@ -547,6 +547,7 @@ func (a *App) onBootstrapControlPlane(ctx context.Context, s mctypes.State, boot
 		cfg.LocalStorage.GetEnabled(),
 		cfg.MetricsServer.GetEnabled(),
 		cfg.DNS.GetEnabled(),
+		cfg.AI.GetEnabled(),
 	)
 	a.NotifyUpdateNodeConfigController()
 	return nil

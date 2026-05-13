@@ -19,7 +19,7 @@ func (a *App) NotifyUpdateNodeConfigController() {
 	utils.MaybeNotify(a.triggerUpdateNodeConfigControllerCh)
 }
 
-func (a *App) NotifyFeatureController(network, gateway, ingress, loadBalancer, localStorage, metricsServer, dns bool) {
+func (a *App) NotifyFeatureController(network, gateway, ingress, loadBalancer, localStorage, metricsServer, dns, ai bool) {
 	if network {
 		utils.MaybeNotify(a.triggerFeatureControllerNetworkCh)
 	}
@@ -40,6 +40,9 @@ func (a *App) NotifyFeatureController(network, gateway, ingress, loadBalancer, l
 	}
 	if dns {
 		utils.MaybeNotify(a.triggerFeatureControllerDNSCh)
+	}
+	if ai {
+		utils.MaybeNotify(a.triggerFeatureControllerAICh)
 	}
 }
 
@@ -76,6 +79,11 @@ func (a *App) NotifyMetricsServer() {
 // NotifyDNS notifies the DNS feature to reconcile.
 func (a *App) NotifyDNS() {
 	utils.MaybeNotify(a.triggerFeatureControllerDNSCh)
+}
+
+// NotifyAI notifies the AI feature to reconcile.
+func (a *App) NotifyAI() {
+	utils.MaybeNotify(a.triggerFeatureControllerAICh)
 }
 
 // Ensure App implements api.Provider.

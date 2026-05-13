@@ -9,7 +9,7 @@ type Provider struct {
 	MicroClusterFn                     func() *microcluster.MicroCluster
 	SnapFn                             func() snap.Snap
 	NotifyUpdateNodeConfigControllerFn func()
-	NotifyFeatureControllerFn          func(network, gateway, ingress, loadBalancer, localStorage, metricsServer, dns bool)
+	NotifyFeatureControllerFn          func(network, gateway, ingress, loadBalancer, localStorage, metricsServer, dns, ai bool)
 }
 
 func (p *Provider) MicroCluster() *microcluster.MicroCluster {
@@ -32,8 +32,8 @@ func (p *Provider) NotifyUpdateNodeConfigController() {
 	}
 }
 
-func (p *Provider) NotifyFeatureController(network, gateway, ingress, loadBalancer, localStorage, metricsServer, dns bool) {
+func (p *Provider) NotifyFeatureController(network, gateway, ingress, loadBalancer, localStorage, metricsServer, dns, ai bool) {
 	if p.NotifyFeatureControllerFn != nil {
-		p.NotifyFeatureControllerFn(network, gateway, ingress, loadBalancer, localStorage, metricsServer, dns)
+		p.NotifyFeatureControllerFn(network, gateway, ingress, loadBalancer, localStorage, metricsServer, dns, ai)
 	}
 }

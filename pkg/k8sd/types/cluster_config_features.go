@@ -76,3 +76,22 @@ func (c LocalStorage) Empty() bool              { return c == LocalStorage{} }
 
 func (c MetricsServer) GetEnabled() bool { return getField(c.Enabled) }
 func (c MetricsServer) Empty() bool      { return c == MetricsServer{} }
+
+type AI struct {
+	Enabled                        *bool     `json:"enabled,omitempty"`
+	ProviderModel                  *string   `json:"provider-model,omitempty"`
+	ProviderToken                  *string   `json:"provider-token,omitempty"`
+	LocalInferenceEnabled          *bool     `json:"local-inference-enabled,omitempty"`
+	LocalInferenceModels           *[]string `json:"local-inference-models,omitempty"`
+	LocalInferencePersistenceEnabled *bool   `json:"local-inference-persistence-enabled,omitempty"`
+	LocalInferencePersistenceSize  *string   `json:"local-inference-persistence-size,omitempty"`
+}
+
+func (c AI) GetEnabled() bool                             { return getField(c.Enabled) }
+func (c AI) GetProviderModel() string                     { return getField(c.ProviderModel) }
+func (c AI) GetProviderToken() string                     { return getField(c.ProviderToken) }
+func (c AI) GetLocalInferenceEnabled() bool                { return getField(c.LocalInferenceEnabled) }
+func (c AI) GetLocalInferenceModels() []string             { return getField(c.LocalInferenceModels) }
+func (c AI) GetLocalInferencePersistenceEnabled() bool     { return getField(c.LocalInferencePersistenceEnabled) }
+func (c AI) GetLocalInferencePersistenceSize() string      { return getField(c.LocalInferencePersistenceSize) }
+func (c AI) Empty() bool                                   { return c == AI{} }

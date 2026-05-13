@@ -10,4 +10,5 @@ const (
 	LoadBalancer  types.FeatureName = "load-balancer"
 	LocalStorage  types.FeatureName = "local-storage"
 	MetricsServer types.FeatureName = "metrics-server"
+	AI           types.FeatureName = "ai"
 )

@@ -24,6 +24,8 @@ type Interface interface {
 	ApplyMetricsServer(context.Context, snap.Snap, types.MetricsServer, types.Annotations) (types.FeatureStatus, error)
 	// ApplyLocalStorage is used to configure the Local Storage feature on Canonical Kubernetes.
 	ApplyLocalStorage(context.Context, snap.Snap, types.LocalStorage, types.Annotations) (types.FeatureStatus, error)
+	// ApplyAI is used to configure the AI feature on Canonical Kubernetes.
+	ApplyAI(context.Context, snap.Snap, types.AI, types.Annotations) (types.FeatureStatus, error)
 }
 
 // implementation implements Interface.
@@ -35,6 +37,7 @@ type implementation struct {
 	applyGateway       func(context.Context, snap.Snap, types.Gateway, types.Network, types.Annotations) (types.FeatureStatus, error)
 	applyMetricsServer func(context.Context, snap.Snap, types.MetricsServer, types.Annotations) (types.FeatureStatus, error)
 	applyLocalStorage  func(context.Context, snap.Snap, types.LocalStorage, types.Annotations) (types.FeatureStatus, error)
+	applyAI           func(context.Context, snap.Snap, types.AI, types.Annotations) (types.FeatureStatus, error)
 }
 
 func (i *implementation) ApplyDNS(ctx context.Context, snap snap.Snap, dns types.DNS, kubelet types.Kubelet, annotations types.Annotations) (types.FeatureStatus, string, error) {
@@ -63,4 +66,8 @@ func (i *implementation) ApplyMetricsServer(ctx context.Context, snap snap.Snap,
 
 func (i *implementation) ApplyLocalStorage(ctx context.Context, snap snap.Snap, cfg types.LocalStorage, annotations types.Annotations) (types.FeatureStatus, error) {
 	return i.applyLocalStorage(ctx, snap, cfg, annotations)
+}
+
+func (i *implementation) ApplyAI(ctx context.Context, snap snap.Snap, cfg types.AI, annotations types.Annotations) (types.FeatureStatus, error) {
+	return i.applyAI(ctx, snap, cfg, annotations)
 }
