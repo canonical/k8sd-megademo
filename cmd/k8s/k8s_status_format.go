@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	apiv2 "github.com/canonical/k8s-snap-api/v2/api"
+	apiv2 "github.com/canonical/k8s-snap-api-megademo/v2/api"
 )
 
 type ClusterStatus apiv2.ClusterStatus

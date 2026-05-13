@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"testing"
 
-	apiv2 "github.com/canonical/k8s-snap-api/v2/api"
+	apiv2 "github.com/canonical/k8s-snap-api-megademo/v2/api"
 	"github.com/canonical/k8sd/cmd/k8s"
 	cmdutil "github.com/canonical/k8sd/cmd/util"
 	k8sdmock "github.com/canonical/k8sd/pkg/client/k8sd/mock"

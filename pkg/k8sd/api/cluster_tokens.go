@@ -8,7 +8,7 @@ import (
 	"net/http"
 	"time"
 
-	apiv2 "github.com/canonical/k8s-snap-api/v2/api"
+	apiv2 "github.com/canonical/k8s-snap-api-megademo/v2/api"
 	"github.com/canonical/k8sd/pkg/client/kubernetes"
 	"github.com/canonical/k8sd/pkg/k8sd/database"
 	"github.com/canonical/k8sd/pkg/k8sd/types"

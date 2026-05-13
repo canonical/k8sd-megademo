@@ -3,7 +3,7 @@ package k8sd
 import (
 	"context"
 
-	apiv2 "github.com/canonical/k8s-snap-api/v2/api"
+	apiv2 "github.com/canonical/k8s-snap-api-megademo/v2/api"
 )
 
 func (c *k8sd) SetClusterAPIAuthToken(ctx context.Context, request apiv2.ClusterAPISetAuthTokenRequest) error {

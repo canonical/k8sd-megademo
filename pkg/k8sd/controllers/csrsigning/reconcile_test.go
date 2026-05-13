@@ -8,7 +8,7 @@ import (
 	"testing"
 	"time"
 
-	apiv1_annotations "github.com/canonical/k8s-snap-api/v2/api/annotations/csrsigning"
+	apiv1_annotations "github.com/canonical/k8s-snap-api-megademo/v2/api/annotations/csrsigning"
 	k8smock "github.com/canonical/k8sd/pkg/k8sd/controllers/csrsigning/test"
 	"github.com/canonical/k8sd/pkg/k8sd/types"
 	"github.com/canonical/k8sd/pkg/log"

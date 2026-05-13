@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
-	apiv2 "github.com/canonical/k8s-snap-api/v2/api"
+	apiv2 "github.com/canonical/k8s-snap-api-megademo/v2/api"
 	"github.com/canonical/k8sd/pkg/utils"
 	mctypes "github.com/canonical/microcluster/v3/microcluster/types"
 )

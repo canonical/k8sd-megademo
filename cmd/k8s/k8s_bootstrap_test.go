@@ -6,8 +6,8 @@ import (
 	"path/filepath"
 	"testing"
 
-	apiv2 "github.com/canonical/k8s-snap-api/v2/api"
-	apiv1_annotations "github.com/canonical/k8s-snap-api/v2/api/annotations"
+	apiv2 "github.com/canonical/k8s-snap-api-megademo/v2/api"
+	apiv1_annotations "github.com/canonical/k8s-snap-api-megademo/v2/api/annotations"
 	cmdutil "github.com/canonical/k8sd/cmd/util"
 	"github.com/canonical/k8sd/pkg/utils"
 	. "github.com/onsi/gomega"

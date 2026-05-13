@@ -1,7 +1,7 @@
 package csrsigning
 
 import (
-	apiv1_annotations "github.com/canonical/k8s-snap-api/v2/api/annotations/csrsigning"
+	apiv1_annotations "github.com/canonical/k8s-snap-api-megademo/v2/api/annotations/csrsigning"
 	"github.com/canonical/k8sd/pkg/k8sd/types"
 )
 

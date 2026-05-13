@@ -5,7 +5,7 @@ import (
 	"errors"
 	"net/http"
 
-	apiv2 "github.com/canonical/k8s-snap-api/v2/api"
+	apiv2 "github.com/canonical/k8s-snap-api-megademo/v2/api"
 	"github.com/canonical/k8sd/pkg/utils/control"
 	"github.com/canonical/lxd/shared/api"
 )

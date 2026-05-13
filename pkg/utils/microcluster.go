@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"time"
 
-	apiv2 "github.com/canonical/k8s-snap-api/v2/api"
+	apiv2 "github.com/canonical/k8s-snap-api-megademo/v2/api"
 	"gopkg.in/yaml.v2"
 )
 
