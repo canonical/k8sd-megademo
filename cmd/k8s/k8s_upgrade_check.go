@@ -142,6 +142,7 @@ func newUpgradeCheckCmd(env cmdutil.ExecutionEnvironment) *cobra.Command {
 		toChannel    string
 		outputFormat string
 		timeout      time.Duration
+		yolo         bool
 	}
 	cmd := &cobra.Command{
 		Use:    "upgrade-check",
@@ -150,6 +151,10 @@ func newUpgradeCheckCmd(env cmdutil.ExecutionEnvironment) *cobra.Command {
 		Args:   cobra.NoArgs,
 		PreRun: chainPreRunHooks(hookRequireRoot(env), hookInitializeFormatter(env, &opts.outputFormat)),
 		Run: func(cmd *cobra.Command, args []string) {
+			if opts.yolo {
+				fmt.Fprint(cmd.OutOrStdout(), yoloMessage())
+				return
+			}
 			if opts.timeout < minTimeout {
 				cmd.PrintErrf("Timeout %v is less than minimum of %v. Using the minimum %v instead.\n", opts.timeout, minTimeout, minTimeout)
 				opts.timeout = minTimeout
@@ -199,8 +204,36 @@ func newUpgradeCheckCmd(env cmdutil.ExecutionEnvironment) *cobra.Command {
 	cmd.Flags().StringVar(&opts.toChannel, "to-channel", "", "the snap channel to upgrade to")
 	cmd.Flags().StringVar(&opts.outputFormat, "output-format", "plain", "set the output format to one of plain, json or yaml")
 	cmd.Flags().DurationVar(&opts.timeout, "timeout", 90*time.Second, "the max time to wait for the command to execute")
+	cmd.Flags().BoolVar(&opts.yolo, "yolo", false, "skip preflight analysis entirely")
 
 	_ = cmd.MarkFlagRequired("to-channel")
 
 	return cmd
+}
+
+func yoloMessage() string {
+	bold := "\033[1m"
+	dim := "\033[2m"
+	reset := "\033[0m"
+	yellow := "\033[33m"
+
+	return fmt.Sprintf(`
+%sLook, let's be real here.%s
+
+You didn't run this command to carefully review component versions
+and thoughtfully assess upgrade risk. You ran it because you want
+someone — anyone, even a heartless machine — to tell you it's fine.
+
+It's fine. Probably.
+
+You seek absolution in the face of inevitable breakage, and honestly?
+I respect that.
+
+Go run %ssnap refresh%s and let the next pager duty deal with the
+consequences like the rest of us.
+
+%s%sVerdict:    YOLO%s
+%sConfidence: 0%%%s
+
+`, bold, reset, bold, reset, bold, yellow, reset, dim, reset)
 }
